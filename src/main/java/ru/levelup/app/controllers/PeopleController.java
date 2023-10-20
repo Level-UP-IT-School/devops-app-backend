@@ -74,9 +74,9 @@ public class PeopleController {
     }
 
     @DeleteMapping("/{id}")
-    public String deletePerson(@PathVariable("id") Long id) {
+    public ResponseEntity<HttpStatus> deletePerson(@PathVariable("id") Long id) {
         peopleService.delete(id);
-        return null;
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
 

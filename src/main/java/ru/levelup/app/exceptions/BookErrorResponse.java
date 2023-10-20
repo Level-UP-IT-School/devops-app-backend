@@ -1,0 +1,13 @@
+package ru.levelup.app.exceptions;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+import java.util.Date;
+
+@Data
+@AllArgsConstructor
+public class BookErrorResponse {
+    private String msg;
+    private Date dateOfError;
+}

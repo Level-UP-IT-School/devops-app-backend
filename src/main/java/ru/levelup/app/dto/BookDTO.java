@@ -3,6 +3,7 @@ package ru.levelup.app.dto;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import ru.levelup.app.model.Person;
 
 @Data
 public class BookDTO {
@@ -23,6 +24,6 @@ public class BookDTO {
     @Size(min = 2, max = 100, message = "Lenght of description should be min 2 symbols, max 100 symbols")
     private String description;
 
-    private PersonDTO owner;
+    private Person owner;
 
 }
