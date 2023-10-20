@@ -1,4 +1,4 @@
-package ru.levelup.devops_app.exceptions;
+package ru.levelup.app.exceptions;
 
 
 public class PersonNotSuccessEditedException extends RuntimeException {

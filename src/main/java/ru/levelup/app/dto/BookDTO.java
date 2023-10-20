@@ -1,4 +1,4 @@
-package ru.levelup.devops_app.dto;
+package ru.levelup.app.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;

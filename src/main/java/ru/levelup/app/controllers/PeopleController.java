@@ -1,4 +1,4 @@
-package ru.levelup.devops_app.controllers;
+package ru.levelup.app.controllers;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,12 +7,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import ru.levelup.devops_app.dto.PersonDTO;
-import ru.levelup.devops_app.exceptions.PersonErrorResponse;
-import ru.levelup.devops_app.exceptions.PersonNotSuccessCreatedException;
-import ru.levelup.devops_app.exceptions.PersonNotSuccessEditedException;
-import ru.levelup.devops_app.model.Person;
-import ru.levelup.devops_app.service.PeopleService;
+import ru.levelup.app.dto.PersonDTO;
+import ru.levelup.app.exceptions.PersonErrorResponse;
+import ru.levelup.app.exceptions.PersonNotSuccessCreatedException;
+import ru.levelup.app.exceptions.PersonNotSuccessEditedException;
+import ru.levelup.app.model.Person;
+import ru.levelup.app.service.PeopleService;
+
 
 import java.util.Date;
 import java.util.List;

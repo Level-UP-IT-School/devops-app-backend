@@ -1,12 +1,6 @@
-package ru.levelup.devops_app.model;
+package ru.levelup.app.model;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.hibernate.validator.constraints.NotEmpty;
-
-import java.time.LocalDateTime;
 
 @Data
 public class Person {

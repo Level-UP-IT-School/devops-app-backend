@@ -1,9 +1,8 @@
-package ru.levelup.devops_app.service;
+package ru.levelup.app.service;
 
 import org.springframework.stereotype.Service;
-import ru.levelup.devops_app.dto.PersonDTO;
-import ru.levelup.devops_app.model.Person;
-
+import ru.levelup.app.dto.PersonDTO;
+import ru.levelup.app.model.Person;
 
 import java.util.ArrayList;
 import java.util.List;
