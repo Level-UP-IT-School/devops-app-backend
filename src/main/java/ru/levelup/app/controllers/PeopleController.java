@@ -20,7 +20,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/people")
+@RequestMapping("/v1/people")
 public class PeopleController {
 
     private final PeopleService peopleService;
@@ -58,7 +58,7 @@ public class PeopleController {
 
 
     @PatchMapping("/{id}")
-    public String editPerson(@PathVariable("id") Long id , @RequestBody @Valid PersonDTO personDTO,
+    public ResponseEntity<HttpStatus> editPerson(@PathVariable("id") Long id , @RequestBody @Valid PersonDTO personDTO,
                              BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
@@ -68,7 +68,9 @@ public class PeopleController {
             fieldErrors.forEach(x -> builder.append(x.getField()).append(" - ").append(x.getDefaultMessage()));
             throw new PersonNotSuccessEditedException(builder.toString());
         }
-        return null;
+        peopleService.update(id, personDTO);
+
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

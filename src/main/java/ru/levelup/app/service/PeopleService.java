@@ -29,10 +29,16 @@ public class PeopleService {
 
     public void update(Long id, PersonDTO personDTOFromForm) {
         Person byId = findById(id);
+        people.remove(byId);
         byId.setAge(personDTOFromForm.getAge());
+        byId.setName(personDTOFromForm.getName());
+        byId.setPhoneNumber(personDTOFromForm.getPhoneNumber());
+        people.add(byId);
     }
 
     public void delete(Long id) {
+        Person byId = findById(id);
+        people.remove(byId);
     }
 
 
