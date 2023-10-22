@@ -1,44 +1,52 @@
 package ru.levelup.app.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.levelup.app.dto.PersonDTO;
 import ru.levelup.app.model.Person;
+import ru.levelup.app.repository.PeopleRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class PeopleService {
 
-    private List<Person> people = new ArrayList<>();
+    private final PeopleRepository peopleRepository;
+
+    public PeopleService(PeopleRepository peopleRepository) {
+        this.peopleRepository = peopleRepository;
+    }
 
 
     public List<Person> findAll() {
-        return people;
+        return peopleRepository.findAll();
     }
 
     public Person findById(Long id) {
-        return people
-                .stream().filter(x -> x.getId().equals(id))
-                .findFirst().orElse(null);
+        return peopleRepository.findById(id).orElse(null);
     }
 
+    @Transactional
     public void save(Person person) {
-        people.add(person);
+        peopleRepository.save(person);
     }
 
-    public void update(Long id, PersonDTO personDTOFromForm) {
-        Person byId = findById(id);
-        people.remove(byId);
-        byId.setAge(personDTOFromForm.getAge());
-        byId.setName(personDTOFromForm.getName());
-        byId.setPhoneNumber(personDTOFromForm.getPhoneNumber());
-        people.add(byId);
+    @Transactional
+    public void update(Long id, PersonDTO person) {
+        Person p = peopleRepository.findById(id).orElse(null);
+        if (p != null) {
+            p.setAge(person.getAge());
+            p.setPersonName(person.getName());
+            p.setPhoneNumber(person.getPhoneNumber());
+            p.setBooks(person.getBooks());
+            peopleRepository.save(p);
+        }
     }
 
+    @Transactional
     public void delete(Long id) {
-        Person byId = findById(id);
-        people.remove(byId);
+        peopleRepository.deleteById(id);
     }
 
 

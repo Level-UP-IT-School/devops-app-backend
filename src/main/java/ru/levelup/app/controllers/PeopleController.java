@@ -84,7 +84,7 @@ public class PeopleController {
         Person p = new Person();
         p.setId((long) (peopleService.findAll().size() + 1));
         p.setAge(personDTO.getAge());
-        p.setName(personDTO.getName());
+        p.setPersonName(personDTO.getName());
         p.setPhoneNumber(personDTO.getPhoneNumber());
         p.setBooks(personDTO.getBooks());
         return p;

@@ -1,54 +1,52 @@
 package ru.levelup.app.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.levelup.app.dto.BookDTO;
-import ru.levelup.app.dto.PersonDTO;
 import ru.levelup.app.model.Book;
-import ru.levelup.app.model.Person;
+import ru.levelup.app.repository.BookRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class BookService {
 
-    private List<Book> books = new ArrayList<>();
+    private final BookRepository bookRepository;
+
+    public BookService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     public List<Book> findAll() {
-        return books;
+        return bookRepository.findAll();
     }
 
     public Book findById(Long id) {
-        return books
-                .stream().filter(x -> x.getId().equals(id))
-                .findFirst().orElse(null);
+        return bookRepository.findById(id).orElse(null);
     }
 
+    @Transactional
     public void save(Book book) {
-        books.add(book);
+        bookRepository.save(book);
     }
 
+    @Transactional
     public void update(Long id, BookDTO bookDTO) {
-        Book byId = findById(id);
-        books.remove(byId);
-        byId.setName(bookDTO.getName());
-        byId.setAuthor(bookDTO.getAuthor());
-        byId.setGenre(bookDTO.getGenre());
-        byId.setDescription(bookDTO.getDescription());
-        books.add(byId);
+        Book b = bookRepository.findById(id).orElse(null);
+        if (b != null) {
+            b.setBookName(bookDTO.getName());
+            b.setAuthor(bookDTO.getAuthor());
+            b.setGenre(bookDTO.getGenre());
+            b.setDescription(bookDTO.getDescription());
+            b.setPerson(bookDTO.getOwner());
+            bookRepository.save(b);
+        }
     }
 
+    @Transactional
     public void delete(Long id) {
-        Book byId = findById(id);
-        books.remove(byId);
-    }
-
-    public Book findByItemName(String name) {
-        return null;
-    }
-
-    public Book findByOwner(PersonDTO owner) {
-        return null;
+        bookRepository.deleteById(id);
     }
 
 }

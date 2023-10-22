@@ -21,9 +21,9 @@ public class BookDTO {
     private String genre;
 
     @NotEmpty(message = "Description should not to be empty")
-    @Size(min = 2, max = 100, message = "Lenght of description should be min 2 symbols, max 100 symbols")
+    @Size(min = 2, max = 10000, message = "Lenght of description should be min 2 symbols, max 100 symbols")
     private String description;
 
-    private Person owner;
+    private Person person;
 
 }

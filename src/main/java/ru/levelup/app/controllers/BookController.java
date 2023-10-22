@@ -81,7 +81,7 @@ public class BookController {
 
     private Book convertToBook(BookDTO bookDTO) {
         Book p = new Book();
-        p.setName(bookDTO.getName());
+        p.setBookName(bookDTO.getName());
         p.setAuthor(bookDTO.getAuthor());
         p.setGenre(bookDTO.getGenre());
         p.setDescription(bookDTO.getDescription());

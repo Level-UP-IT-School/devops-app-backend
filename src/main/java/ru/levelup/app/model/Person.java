@@ -1,20 +1,34 @@
 package ru.levelup.app.model;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Entity
+@Table(name = "person")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Person {
 
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Column(name = "person_name")
+    private String personName;
 
+    @Column(name = "age")
     private int age;
 
+    @Column(name = "phone_number")
     private String phoneNumber;
 
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     private List<Book> books;
 
 
