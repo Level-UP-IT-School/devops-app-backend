@@ -13,6 +13,7 @@ import ru.levelup.app.exceptions.BookNotSuccessCreatedException;
 import ru.levelup.app.exceptions.BookNotSuccessEditedException;
 import ru.levelup.app.model.Book;
 import ru.levelup.app.service.BookService;
+import ru.levelup.app.service.PeopleService;
 
 import java.util.Date;
 import java.util.List;
@@ -23,10 +24,12 @@ import java.util.List;
 public class BookController {
 
     private final BookService bookService;
+    private final PeopleService peopleService;
 
     @Autowired
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService, PeopleService peopleService) {
         this.bookService = bookService;
+        this.peopleService = peopleService;
     }
 
 
@@ -51,7 +54,11 @@ public class BookController {
             fieldErrors.forEach(x -> builder.append(x.getField()).append(" - ").append(x.getDefaultMessage()));
             throw new BookNotSuccessCreatedException(builder.toString());
         }
-        bookService.save(convertToBook(bookDTO));
+        Book book = convertToBook(bookDTO);
+        if (bookDTO.getOwner() != null && book.getOwner() == null) {
+            throw new BookNotSuccessCreatedException("Владельца книги с таким id не существует");
+        }
+        bookService.save(book);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
@@ -85,6 +92,7 @@ public class BookController {
         p.setAuthor(bookDTO.getAuthor());
         p.setGenre(bookDTO.getGenre());
         p.setDescription(bookDTO.getDescription());
+        p.setOwner(peopleService.findById(bookDTO.getOwner()));
         return p;
     }
 
