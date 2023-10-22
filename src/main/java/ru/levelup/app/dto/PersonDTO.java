@@ -5,6 +5,9 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import ru.levelup.app.model.Book;
+
+import java.util.List;
 
 @Data
 public class PersonDTO {
@@ -18,4 +21,6 @@ public class PersonDTO {
 
     @NotEmpty(message = "PhoneNumber should not to be empty")
     private String phoneNumber;
+
+    private List<Book> books;
 }

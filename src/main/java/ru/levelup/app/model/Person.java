@@ -2,6 +2,8 @@ package ru.levelup.app.model;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class Person {
 
@@ -12,6 +14,8 @@ public class Person {
     private int age;
 
     private String phoneNumber;
+
+    private List<Book> books;
 
 
 }
