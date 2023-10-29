@@ -1,11 +1,13 @@
 package ru.levelup.app.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@EqualsAndHashCode
 public class Person {
 
     private Long id;
@@ -24,4 +26,6 @@ public class Person {
         }
         return books;
     }
+
+
 }

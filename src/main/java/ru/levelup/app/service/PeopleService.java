@@ -76,10 +76,15 @@ public class PeopleService {
         if (!booksToDelete.isEmpty()) {
             booksToDelete.forEach(x -> p.getBooks().remove(x));
         }
-        // добавляем
+        // добавляем конкретному и убираем у остальных
         bookIds.forEach(x -> {
             Book b = bookService.findById(x);
             if (!p.getBooks().contains(b)) {
+                people.forEach(s -> {
+                    if (s.getBooks().contains(b) && !s.equals(p)) {
+                        s.getBooks().remove(b);
+                    }
+                });
                 p.getBooks().add(b);
                 b.setPerson(p.getId());
                 Objects.requireNonNull(allBooks.stream().filter(book ->
