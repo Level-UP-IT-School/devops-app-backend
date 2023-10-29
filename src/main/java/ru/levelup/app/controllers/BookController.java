@@ -55,7 +55,7 @@ public class BookController {
             throw new BookNotSuccessCreatedException(builder.toString());
         }
         Book book = convertToBook(bookDTO);
-        if (bookDTO.getOwner() != null && book.getOwner() == null) {
+        if (bookDTO.getPerson() != null && book.getPerson() == null) {
             throw new BookNotSuccessCreatedException("Владельца книги с таким id не существует");
         }
         bookService.save(book);
@@ -87,13 +87,13 @@ public class BookController {
 
 
     private Book convertToBook(BookDTO bookDTO) {
-        Book p = new Book();
-        p.setName(bookDTO.getName());
-        p.setAuthor(bookDTO.getAuthor());
-        p.setGenre(bookDTO.getGenre());
-        p.setDescription(bookDTO.getDescription());
-        p.setOwner(peopleService.findById(bookDTO.getOwner()));
-        return p;
+        Book b = new Book();
+        b.setName(bookDTO.getName());
+        b.setAuthor(bookDTO.getAuthor());
+        b.setGenre(bookDTO.getGenre());
+        b.setDescription(bookDTO.getDescription());
+        b.setPerson(bookDTO.getPerson());
+        return b;
     }
 
     @ExceptionHandler

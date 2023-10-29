@@ -23,4 +23,6 @@ public class PersonDTO {
     private String phoneNumber;
 
     private List<Book> books;
+
+    private List<Long> booksId;
 }

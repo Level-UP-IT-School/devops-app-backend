@@ -15,5 +15,5 @@ public class Book {
 
     private String description;
 
-    private Person owner;
+    private Long person;
 }

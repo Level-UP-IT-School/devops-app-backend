@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import ru.levelup.app.dto.BookDTO;
 import ru.levelup.app.dto.PersonDTO;
 import ru.levelup.app.model.Book;
-import ru.levelup.app.model.Person;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +12,7 @@ import java.util.List;
 public class BookService {
 
     private List<Book> books = new ArrayList<>();
+    private Long COUNTER = 0L;
 
     public List<Book> findAll() {
         return books;
@@ -25,6 +25,7 @@ public class BookService {
     }
 
     public void save(Book book) {
+        book.setId(++COUNTER);
         books.add(book);
     }
 
@@ -50,5 +51,6 @@ public class BookService {
     public Book findByOwner(PersonDTO owner) {
         return null;
     }
+
 
 }
