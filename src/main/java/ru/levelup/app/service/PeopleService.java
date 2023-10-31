@@ -2,6 +2,7 @@ package ru.levelup.app.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.levelup.app.dto.BookDTO;
 import ru.levelup.app.dto.PersonDTO;
 import ru.levelup.app.model.Book;
 import ru.levelup.app.model.Person;
@@ -87,11 +88,21 @@ public class PeopleService {
         personDTO.setPhoneNumber(person.getPhoneNumber());
         List<Long> res = new ArrayList<>();
         List<Book> books = bookService.findAll();
+        List<BookDTO> booksToSet = new ArrayList<>();
         books.forEach(x -> {
-            if (person.getId().equals(x.getPersonId()))
+            if (person.getId().equals(x.getPersonId())) {
+                BookDTO bookDTO = new BookDTO();
+                bookDTO.setName(x.getBookName());
+                bookDTO.setAuthor(x.getAuthor());
+                bookDTO.setDescription(x.getDescription());
+                bookDTO.setPersonId(x.getPersonId());
+                bookDTO.setGenre(x.getGenre());
                 res.add(x.getId());
+                booksToSet.add(bookDTO);
+            }
         });
         personDTO.setBooksId(res);
+        personDTO.setBooks(booksToSet);
         return personDTO;
     }
 

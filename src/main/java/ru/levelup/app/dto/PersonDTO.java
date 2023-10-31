@@ -22,7 +22,7 @@ public class PersonDTO {
     @NotEmpty(message = "PhoneNumber should not to be empty")
     private String phoneNumber;
 
-    private List<Book> books;
+    private List<BookDTO> books;
     private List<Long> booksId;
 
 }
