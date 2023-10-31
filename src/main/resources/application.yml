@@ -7,3 +7,12 @@ spring:
     properties:
       hibernate:
         show_sql: true
+logging:
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
+  level:
+    org.springframework: DEBUG
+    ru.devmark.my_bot: DEBUG
+  file:
+    name: logs.log

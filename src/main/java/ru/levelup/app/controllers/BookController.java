@@ -1,6 +1,9 @@
 package ru.levelup.app.controllers;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +20,12 @@ import ru.levelup.app.service.BookService;
 import java.util.Date;
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/v1/books")
 public class BookController {
 
     private final BookService bookService;
+    private static Logger log = LoggerFactory.getLogger(BookController.class);
 
     @Autowired
     public BookController(BookService bookService) {
@@ -32,18 +35,20 @@ public class BookController {
 
     @GetMapping()
     public List<BookDTO> getBooks() {
+        log.info("incoming get rq");
         return bookService.findAllBooksDTO();
     }
 
     @GetMapping("/{id}")
     public Book getBookById(@PathVariable Long id) {
+
         return bookService.findById(id);
     }
 
 
     @PostMapping()
     public ResponseEntity<HttpStatus> create(@RequestBody @Valid BookDTO bookDTO, BindingResult bindingResult) {
-
+        log.info(bookDTO.toString());
         if (bindingResult.hasErrors()) {
             StringBuilder builder = new StringBuilder();
 

@@ -1,6 +1,8 @@
 package ru.levelup.app.controllers;
 
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,7 @@ import java.util.List;
 public class PeopleController {
 
     private final PeopleService peopleService;
+    private static Logger log = LoggerFactory.getLogger(PeopleController.class);
 
     @Autowired
     public PeopleController(PeopleService peopleService) {
@@ -34,6 +37,7 @@ public class PeopleController {
 
     @GetMapping()
     public List<PersonDTO> getPeople() {
+        log.info("incoming get rq");
         return peopleService.findAll();
     }
 
@@ -45,7 +49,7 @@ public class PeopleController {
 
     @PostMapping()
     public ResponseEntity<HttpStatus> create(@RequestBody @Valid PersonDTO personDTO, BindingResult bindingResult) {
-
+        log.info(personDTO.toString());
         if (bindingResult.hasErrors()) {
             StringBuilder builder = new StringBuilder();
 
