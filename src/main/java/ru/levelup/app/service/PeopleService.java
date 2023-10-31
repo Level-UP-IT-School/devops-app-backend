@@ -26,6 +26,9 @@ public class PeopleService {
 
 
     public List<Person> findAll() {
+        people.forEach(x -> {
+            x.setBooks(x.getBooksId());
+        });
         return people;
     }
 

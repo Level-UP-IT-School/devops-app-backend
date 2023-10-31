@@ -19,6 +19,7 @@ public class Person {
     private String phoneNumber;
 
     private List<Book> booksId;
+    private List<Book> books;
 
     public List<Book> getBooksId() {
         if (booksId == null) {

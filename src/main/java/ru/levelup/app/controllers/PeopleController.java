@@ -94,6 +94,16 @@ public class PeopleController {
         return p;
     }
 
+    private Person convertToPersonForGet(PersonDTO personDTO) {
+        Person p = new Person();
+        p.setId((long) (peopleService.findAll().size() + 1));
+        p.setAge(personDTO.getAge());
+        p.setName(personDTO.getName());
+        p.setPhoneNumber(personDTO.getPhoneNumber());
+        p.setBooks(personDTO.getBooks());
+        return p;
+    }
+
     @ExceptionHandler
     private ResponseEntity<PersonErrorResponse> handleException(Exception ex) {
         PersonErrorResponse errorResponse = new PersonErrorResponse(ex.getLocalizedMessage(), new Date());
