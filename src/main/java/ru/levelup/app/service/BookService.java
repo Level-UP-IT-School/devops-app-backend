@@ -3,9 +3,12 @@ package ru.levelup.app.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.levelup.app.dto.BookDTO;
+import ru.levelup.app.dto.PersonDTO;
 import ru.levelup.app.model.Book;
+import ru.levelup.app.model.Person;
 import ru.levelup.app.repository.BookRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,6 +23,22 @@ public class BookService {
 
     public List<Book> findAll() {
         return bookRepository.findAll();
+    }
+
+    public List<BookDTO> findAllBooksDTO() {
+        List<Book> all = bookRepository.findAll();
+        List<BookDTO> result = new ArrayList<>();
+        all.forEach(x -> {
+            BookDTO bookDTO = new BookDTO();
+            bookDTO.setName(x.getBookName());
+            bookDTO.setAuthor(x.getAuthor());
+            bookDTO.setDescription(x.getDescription());
+//            bookDTO.setPersonId(x.getPerson().getId());
+            bookDTO.setPersonDTO(convertToPersonDTO(x.getPerson()));
+            bookDTO.setGenre(x.getGenre());
+            result.add(bookDTO);
+        });
+        return result;
     }
 
     public Book findById(Long id) {
@@ -39,7 +58,7 @@ public class BookService {
             b.setAuthor(bookDTO.getAuthor());
             b.setGenre(bookDTO.getGenre());
             b.setDescription(bookDTO.getDescription());
-            b.setPerson(bookDTO.getOwner());
+            b.setPerson(bookDTO.getPerson());
             bookRepository.save(b);
         }
     }
@@ -47,6 +66,22 @@ public class BookService {
     @Transactional
     public void delete(Long id) {
         bookRepository.deleteById(id);
+    }
+
+    public PersonDTO convertToPersonDTO(Person person) {
+        PersonDTO personDTO = new PersonDTO();
+        personDTO.setName(person.getPersonName());
+        personDTO.setPhoneNumber(person.getPhoneNumber());
+        List<Long> res = new ArrayList<>();
+        person.getBooks().forEach(x -> {
+            res.add(x.getId());
+        });
+        personDTO.setBooksId(res);
+        return personDTO;
+    }
+
+    public List<Book> findByPerson(Person person) {
+        return bookRepository.findByPerson(person);
     }
 
 }

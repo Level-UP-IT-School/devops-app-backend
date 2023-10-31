@@ -11,6 +11,7 @@ import ru.levelup.app.dto.PersonDTO;
 import ru.levelup.app.exceptions.PersonErrorResponse;
 import ru.levelup.app.exceptions.PersonNotSuccessCreatedException;
 import ru.levelup.app.exceptions.PersonNotSuccessEditedException;
+import ru.levelup.app.model.Book;
 import ru.levelup.app.model.Person;
 import ru.levelup.app.service.PeopleService;
 
@@ -32,7 +33,7 @@ public class PeopleController {
 
 
     @GetMapping()
-    public List<Person> getPeople() {
+    public List<PersonDTO> getPeople() {
         return peopleService.findAll();
     }
 
@@ -58,8 +59,8 @@ public class PeopleController {
 
 
     @PatchMapping("/{id}")
-    public ResponseEntity<HttpStatus> editPerson(@PathVariable("id") Long id , @RequestBody @Valid PersonDTO personDTO,
-                             BindingResult bindingResult) {
+    public List<Book> editPerson(@PathVariable("id") Long id , @RequestBody @Valid PersonDTO personDTO,
+                                 BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             StringBuilder builder = new StringBuilder();
@@ -68,9 +69,7 @@ public class PeopleController {
             fieldErrors.forEach(x -> builder.append(x.getField()).append(" - ").append(x.getDefaultMessage()));
             throw new PersonNotSuccessEditedException(builder.toString());
         }
-        peopleService.update(id, personDTO);
-
-        return ResponseEntity.ok(HttpStatus.OK);
+        return peopleService.update(id, personDTO);
     }
 
     @DeleteMapping("/{id}")
@@ -80,9 +79,9 @@ public class PeopleController {
     }
 
 
-    private Person convertToPerson(PersonDTO personDTO) {
+    public Person convertToPerson(PersonDTO personDTO) {
         Person p = new Person();
-        p.setId((long) (peopleService.findAll().size() + 1));
+        p.setId((long) (peopleService.findAllPersons().size() + 1));
         p.setAge(personDTO.getAge());
         p.setPersonName(personDTO.getName());
         p.setPhoneNumber(personDTO.getPhoneNumber());

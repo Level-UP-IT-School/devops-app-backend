@@ -1,9 +1,12 @@
 package ru.levelup.app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "book")
@@ -29,7 +32,7 @@ public class Book {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="person_id")
     private Person person;
 }

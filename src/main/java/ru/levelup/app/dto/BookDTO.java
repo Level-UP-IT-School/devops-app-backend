@@ -25,5 +25,7 @@ public class BookDTO {
     private String description;
 
     private Person person;
+    private PersonDTO personDTO;
+//    private Long personId;
 
 }
