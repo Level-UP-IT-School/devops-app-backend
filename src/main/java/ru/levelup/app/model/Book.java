@@ -7,7 +7,7 @@ public class Book {
 
     private Long id;
 
-    private String name;
+    private String bookName;
 
     private String author;
 
@@ -15,5 +15,5 @@ public class Book {
 
     private String description;
 
-    private Long person;
+    private Long personId;
 }

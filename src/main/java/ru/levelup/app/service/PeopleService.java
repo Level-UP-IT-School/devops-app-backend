@@ -56,6 +56,12 @@ public class PeopleService {
 
     public void delete(Long id) {
         Person byId = findById(id);
+        List<Book> books = bookService.findAll();
+        books.forEach(x -> {
+            if (id.equals(x.getPersonId())) {
+                x.setPersonId(null);
+            }
+        });
         people.remove(byId);
     }
 
@@ -64,7 +70,7 @@ public class PeopleService {
         Person p = findById(id);
         List<Book> booksToDelete = new ArrayList<>();
         // удаляем
-        p.getBooks().forEach(x -> {
+        p.getBooksId().forEach(x -> {
             if (!bookIds.contains(x.getId())) {
                 bookIdToDelete.set(x.getId());
             }
@@ -74,26 +80,26 @@ public class PeopleService {
             }
         });
         if (!booksToDelete.isEmpty()) {
-            booksToDelete.forEach(x -> p.getBooks().remove(x));
+            booksToDelete.forEach(x -> p.getBooksId().remove(x));
         }
         // добавляем конкретному и убираем у остальных
         bookIds.forEach(x -> {
             Book b = bookService.findById(x);
-            if (!p.getBooks().contains(b)) {
+            if (!p.getBooksId().contains(b)) {
                 people.forEach(s -> {
-                    if (s.getBooks().contains(b) && !s.equals(p)) {
-                        s.getBooks().remove(b);
+                    if (s.getBooksId().contains(b) && !s.equals(p)) {
+                        s.getBooksId().remove(b);
                     }
                 });
-                p.getBooks().add(b);
-                b.setPerson(p.getId());
+                p.getBooksId().add(b);
+                b.setPersonId(p.getId());
                 Objects.requireNonNull(allBooks.stream().filter(book ->
-                        book.getId().equals(b.getId())).findFirst().orElse(null)).setPerson(p.getId());
+                        book.getId().equals(b.getId())).findFirst().orElse(null)).setPersonId(p.getId());
             }
             people.remove(p);
             people.add(p);
         });
-        return p.getBooks();
+        return p.getBooksId();
     }
 
 

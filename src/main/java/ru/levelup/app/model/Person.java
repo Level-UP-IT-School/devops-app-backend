@@ -18,13 +18,13 @@ public class Person {
 
     private String phoneNumber;
 
-    private List<Book> books;
+    private List<Book> booksId;
 
-    public List<Book> getBooks() {
-        if (books == null) {
-            this.books = new ArrayList<>();
+    public List<Book> getBooksId() {
+        if (booksId == null) {
+            this.booksId = new ArrayList<>();
         }
-        return books;
+        return booksId;
     }
 
 

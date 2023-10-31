@@ -2,7 +2,6 @@ package ru.levelup.app.service;
 
 import org.springframework.stereotype.Service;
 import ru.levelup.app.dto.BookDTO;
-import ru.levelup.app.dto.PersonDTO;
 import ru.levelup.app.model.Book;
 
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ import java.util.List;
 @Service
 public class BookService {
 
-    private List<Book> books = new ArrayList<>();
+    private final List<Book> books = new ArrayList<>();
     private Long COUNTER = 0L;
 
     public List<Book> findAll() {
@@ -32,7 +31,7 @@ public class BookService {
     public void update(Long id, BookDTO bookDTO) {
         Book byId = findById(id);
         books.remove(byId);
-        byId.setName(bookDTO.getName());
+        byId.setBookName(bookDTO.getName());
         byId.setAuthor(bookDTO.getAuthor());
         byId.setGenre(bookDTO.getGenre());
         byId.setDescription(bookDTO.getDescription());
@@ -41,16 +40,10 @@ public class BookService {
 
     public void delete(Long id) {
         Book byId = findById(id);
+
         books.remove(byId);
     }
 
-    public Book findByItemName(String name) {
-        return null;
-    }
-
-    public Book findByOwner(PersonDTO owner) {
-        return null;
-    }
 
 
 }

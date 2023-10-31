@@ -12,11 +12,15 @@ import ru.levelup.app.exceptions.BookErrorResponse;
 import ru.levelup.app.exceptions.BookNotSuccessCreatedException;
 import ru.levelup.app.exceptions.BookNotSuccessEditedException;
 import ru.levelup.app.model.Book;
+import ru.levelup.app.model.Person;
 import ru.levelup.app.service.BookService;
 import ru.levelup.app.service.PeopleService;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 @RestController
@@ -55,7 +59,7 @@ public class BookController {
             throw new BookNotSuccessCreatedException(builder.toString());
         }
         Book book = convertToBook(bookDTO);
-        if (bookDTO.getPerson() != null && book.getPerson() == null) {
+        if (bookDTO.getPersonId() != null && book.getPersonId() == null) {
             throw new BookNotSuccessCreatedException("Владельца книги с таким id не существует");
         }
         bookService.save(book);
@@ -81,6 +85,7 @@ public class BookController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteBook(@PathVariable("id") Long id) {
+        deleteBookFromPerson(id);
         bookService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -88,11 +93,11 @@ public class BookController {
 
     private Book convertToBook(BookDTO bookDTO) {
         Book b = new Book();
-        b.setName(bookDTO.getName());
+        b.setBookName(bookDTO.getName());
         b.setAuthor(bookDTO.getAuthor());
         b.setGenre(bookDTO.getGenre());
         b.setDescription(bookDTO.getDescription());
-        b.setPerson(bookDTO.getPerson());
+        b.setPersonId(bookDTO.getPersonId());
         return b;
     }
 
@@ -100,5 +105,22 @@ public class BookController {
     private ResponseEntity<BookErrorResponse> handleException(Exception ex) {
         BookErrorResponse errorResponse = new BookErrorResponse(ex.getLocalizedMessage(), new Date());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    private void deleteBookFromPerson(Long id) {
+        List<Person> people = peopleService.findAll();
+        List<Person> personToDeleteBook = new ArrayList<>();
+        AtomicReference<Book> book = new AtomicReference<Book>();
+        people.forEach(x -> {
+            x.getBooksId().forEach( b -> {
+                if(id.equals(b.getId())) {
+                    personToDeleteBook.add(x);
+                    Objects.requireNonNull(book).set(b);
+                }
+            });
+        });
+        personToDeleteBook.get(0).getBooksId().remove(book.get());
+        people.remove(personToDeleteBook.get(0));
+        people.add(personToDeleteBook.get(0));
     }
 }

@@ -90,7 +90,7 @@ public class PeopleController {
         p.setAge(personDTO.getAge());
         p.setName(personDTO.getName());
         p.setPhoneNumber(personDTO.getPhoneNumber());
-        p.setBooks(personDTO.getBooks());
+        p.setBooksId(personDTO.getBooks());
         return p;
     }
 
