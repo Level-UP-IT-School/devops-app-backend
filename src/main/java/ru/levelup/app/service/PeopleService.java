@@ -9,6 +9,7 @@ import ru.levelup.app.repository.PeopleRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -50,35 +51,33 @@ public class PeopleService {
     @Transactional
     public List<Book> update(Long id, PersonDTO personDTO) {
         Person person = peopleRepository.findById(id).orElse(null);
+        List<Book> books = bookService.findAll();
         if (person != null) {
             personDTO.getBooksId().forEach(x -> {
                 Book b = bookService.findById(x);
-                if (b != null && !person.getBooks().contains(b)) {
-                    b.setPerson(person);
+                if (b != null && !id.equals(b.getPersonId())) {
+                    b.setPersonId(person.getId());
+                    bookService.save(b);
+                }
+            });// 1, 2
+            books.forEach(b -> {
+                if (!personDTO.getBooksId().contains(b.getId())) {
+                    Objects.requireNonNull(b).setPersonId(null);
                     bookService.save(b);
                 }
             });
-            person.getBooks().forEach(x -> {
-                if (!personDTO.getBooksId().contains(x.getId())) {
-                    Book b = bookService.findById(x.getId());
-                    if (b != null && !person.getBooks().contains(b)) {
-                        b.setPerson(null);
-                        bookService.save(b);
-                    }
-                }
-            });
-            person.setAge(personDTO.getAge());
-            person.setPersonName(personDTO.getName());
-            person.setPhoneNumber(personDTO.getPhoneNumber());
-            peopleRepository.saveAndFlush(person);
         }
-        List<Book> books = bookService.findByPerson(person);
-        books.forEach(x -> x.setPerson(null));
-        return person != null ? books : null;
+        return bookService.findByPersonId(id);
     }
 
     @Transactional
     public void delete(Long id) {
+        bookService.findAll().forEach(x -> {
+            if (id.equals(x.getPersonId())) {
+                x.setPersonId(null);
+                bookService.save(x);
+            }
+        });
         peopleRepository.deleteById(id);
     }
 
@@ -87,8 +86,10 @@ public class PeopleService {
         personDTO.setName(person.getPersonName());
         personDTO.setPhoneNumber(person.getPhoneNumber());
         List<Long> res = new ArrayList<>();
-        person.getBooks().forEach(x -> {
-            res.add(x.getId());
+        List<Book> books = bookService.findAll();
+        books.forEach(x -> {
+            if (person.getId().equals(x.getPersonId()))
+                res.add(x.getId());
         });
         personDTO.setBooksId(res);
         return personDTO;

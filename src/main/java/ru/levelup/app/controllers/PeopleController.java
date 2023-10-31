@@ -38,8 +38,8 @@ public class PeopleController {
     }
 
     @GetMapping("/{id}")
-    public Person getPersonById(@PathVariable Long id) {
-        return peopleService.findById(id);
+    public PersonDTO getPersonById(@PathVariable Long id) {
+        return peopleService.convertToPersonDTO(peopleService.findById(id));
     }
 
 
@@ -85,7 +85,6 @@ public class PeopleController {
         p.setAge(personDTO.getAge());
         p.setPersonName(personDTO.getName());
         p.setPhoneNumber(personDTO.getPhoneNumber());
-        p.setBooks(personDTO.getBooks());
         return p;
     }
 

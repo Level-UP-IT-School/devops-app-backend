@@ -13,9 +13,9 @@ create table book
     author  varchar(255),
     genre  varchar(255),
     description  varchar(10000),
-    person_id          int references person(id),
-    PRIMARY KEY (id),
-    FOREIGN KEY (person_id)
-        REFERENCES person(id)
-        ON DELETE CASCADE
+    person_id          int,
+    PRIMARY KEY (id)
 );
+
+drop table book;
+drop table person;

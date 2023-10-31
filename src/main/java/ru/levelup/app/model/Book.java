@@ -32,7 +32,6 @@ public class Book {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="person_id")
-    private Person person;
+    @Column(name = "person_id")
+    private Long personId;
 }

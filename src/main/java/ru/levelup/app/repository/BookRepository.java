@@ -7,5 +7,5 @@ import ru.levelup.app.model.Person;
 import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
-    List<Book> findByPerson(Person person);
+    List<Book> findByPersonId(Long id);
 }

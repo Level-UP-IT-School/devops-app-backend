@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "person")
@@ -28,9 +26,5 @@ public class Person {
 
     @Column(name = "phone_number")
     private String phoneNumber;
-
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
-    private List<Book> books;
-
 
 }

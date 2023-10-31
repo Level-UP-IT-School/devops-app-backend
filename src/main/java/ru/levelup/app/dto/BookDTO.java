@@ -24,8 +24,6 @@ public class BookDTO {
     @Size(min = 2, max = 10000, message = "Lenght of description should be min 2 symbols, max 100 symbols")
     private String description;
 
-    private Person person;
-    private PersonDTO personDTO;
-//    private Long personId;
+    private Long personId;
 
 }

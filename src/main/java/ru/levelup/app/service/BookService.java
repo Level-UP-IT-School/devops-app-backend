@@ -33,8 +33,7 @@ public class BookService {
             bookDTO.setName(x.getBookName());
             bookDTO.setAuthor(x.getAuthor());
             bookDTO.setDescription(x.getDescription());
-//            bookDTO.setPersonId(x.getPerson().getId());
-            bookDTO.setPersonDTO(convertToPersonDTO(x.getPerson()));
+            bookDTO.setPersonId(x.getPersonId());
             bookDTO.setGenre(x.getGenre());
             result.add(bookDTO);
         });
@@ -58,7 +57,7 @@ public class BookService {
             b.setAuthor(bookDTO.getAuthor());
             b.setGenre(bookDTO.getGenre());
             b.setDescription(bookDTO.getDescription());
-            b.setPerson(bookDTO.getPerson());
+            b.setPersonId(bookDTO.getPersonId());
             bookRepository.save(b);
         }
     }
@@ -73,15 +72,12 @@ public class BookService {
         personDTO.setName(person.getPersonName());
         personDTO.setPhoneNumber(person.getPhoneNumber());
         List<Long> res = new ArrayList<>();
-        person.getBooks().forEach(x -> {
-            res.add(x.getId());
-        });
         personDTO.setBooksId(res);
         return personDTO;
     }
 
-    public List<Book> findByPerson(Person person) {
-        return bookRepository.findByPerson(person);
+    public List<Book> findByPersonId(Long id) {
+        return bookRepository.findByPersonId(id);
     }
 
 }
