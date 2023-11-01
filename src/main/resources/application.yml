@@ -13,6 +13,6 @@ logging:
     file: "%d %-5level [%thread] %logger : %msg%n"
   level:
     org.springframework: DEBUG
-    ru.devmark.my_bot: DEBUG
+    ru.levelup.app: DEBUG
   file:
     name: logs.log
