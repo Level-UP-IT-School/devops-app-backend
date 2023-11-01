@@ -16,3 +16,4 @@ logging:
     ru.levelup.app: DEBUG
   file:
     name: logs.log
+    path: ${SPRING_BOOT_LOG_PATH}
