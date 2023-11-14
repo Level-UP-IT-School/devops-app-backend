@@ -17,7 +17,7 @@ import ru.levelup.app.service.BookService;
 import java.util.Date;
 import java.util.List;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/v1/books")
 public class BookController {
