@@ -23,6 +23,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 
+@CrossOrigin
 @RestController
 @RequestMapping("/v1/books")
 public class BookController {
@@ -110,15 +111,13 @@ public class BookController {
     private void deleteBookFromPerson(Long id) {
         List<Person> people = peopleService.findAll();
         List<Person> personToDeleteBook = new ArrayList<>();
-        AtomicReference<Book> book = new AtomicReference<Book>();
-        people.forEach(x -> {
-            x.getBooksId().forEach( b -> {
-                if(id.equals(b.getId())) {
-                    personToDeleteBook.add(x);
-                    Objects.requireNonNull(book).set(b);
-                }
-            });
-        });
+        AtomicReference<Book> book = new AtomicReference<>();
+        people.forEach(x -> x.getBooksId().forEach(b -> {
+            if(id.equals(b.getId())) {
+                personToDeleteBook.add(x);
+                Objects.requireNonNull(book).set(b);
+            }
+        }));
         personToDeleteBook.get(0).getBooksId().remove(book.get());
         people.remove(personToDeleteBook.get(0));
         people.add(personToDeleteBook.get(0));

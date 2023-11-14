@@ -19,7 +19,7 @@ import ru.levelup.app.service.PeopleService;
 import java.util.Date;
 import java.util.List;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/v1/people")
 public class PeopleController {
