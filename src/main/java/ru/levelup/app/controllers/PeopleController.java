@@ -50,13 +50,13 @@ public class PeopleController {
     @PostMapping()
     public ResponseEntity<HttpStatus> create(@RequestBody @Valid PersonDTO personDTO, BindingResult bindingResult) {
         log.info(personDTO.toString());
-        if (bindingResult.hasErrors()) {
-            StringBuilder builder = new StringBuilder();
-
-            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-            fieldErrors.forEach(x -> builder.append(x.getField()).append(" - ").append(x.getDefaultMessage()));
-            throw new PersonNotSuccessCreatedException(builder.toString());
-        }
+//        if (bindingResult.hasErrors()) {
+//            StringBuilder builder = new StringBuilder();
+//
+//            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+//            fieldErrors.forEach(x -> builder.append(x.getField()).append(" - ").append(x.getDefaultMessage()));
+//            throw new PersonNotSuccessCreatedException(builder.toString());
+//        }
         peopleService.save(convertToPerson(personDTO));
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -66,13 +66,13 @@ public class PeopleController {
     public List<Book> editPerson(@PathVariable("id") Long id , @RequestBody @Valid PersonDTO personDTO,
                                  BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors()) {
-            StringBuilder builder = new StringBuilder();
-
-            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-            fieldErrors.forEach(x -> builder.append(x.getField()).append(" - ").append(x.getDefaultMessage()));
-            throw new PersonNotSuccessEditedException(builder.toString());
-        }
+//        if (bindingResult.hasErrors()) {
+//            StringBuilder builder = new StringBuilder();
+//
+//            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+//            fieldErrors.forEach(x -> builder.append(x.getField()).append(" - ").append(x.getDefaultMessage()));
+//            throw new PersonNotSuccessEditedException(builder.toString());
+//        }
         return peopleService.update(id, personDTO);
     }
 

@@ -50,13 +50,13 @@ public class BookController {
     @PostMapping()
     public ResponseEntity<HttpStatus> create(@RequestBody @Valid BookDTO bookDTO, BindingResult bindingResult) {
         log.info(bookDTO.toString());
-        if (bindingResult.hasErrors()) {
-            StringBuilder builder = new StringBuilder();
-
-            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-            fieldErrors.forEach(x -> builder.append(x.getField()).append(" - ").append(x.getDefaultMessage()));
-            throw new BookNotSuccessCreatedException(builder.toString());
-        }
+//        if (bindingResult.hasErrors()) {
+//            StringBuilder builder = new StringBuilder();
+//
+//            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+//            fieldErrors.forEach(x -> builder.append(x.getField()).append(" - ").append(x.getDefaultMessage()));
+//            throw new BookNotSuccessCreatedException(builder.toString());
+//        }
         bookService.save(convertToBook(bookDTO));
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -66,13 +66,13 @@ public class BookController {
     public ResponseEntity<HttpStatus> editBook(@PathVariable("id") Long id, @RequestBody @Valid BookDTO bookDTO,
                                                BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors()) {
-            StringBuilder builder = new StringBuilder();
-
-            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-            fieldErrors.forEach(x -> builder.append(x.getField()).append(" - ").append(x.getDefaultMessage()));
-            throw new BookNotSuccessEditedException(builder.toString());
-        }
+//        if (bindingResult.hasErrors()) {
+//            StringBuilder builder = new StringBuilder();
+//
+//            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+//            fieldErrors.forEach(x -> builder.append(x.getField()).append(" - ").append(x.getDefaultMessage()));
+//            throw new BookNotSuccessEditedException(builder.toString());
+//        }
         bookService.update(id, bookDTO);
 
         return ResponseEntity.ok(HttpStatus.OK);
